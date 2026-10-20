@@ -1,4 +1,6 @@
-import { pageSeo } from "@/lib/seo";
+import { tourSeo } from "@/lib/seo";
+import { DETAILED_TOURS } from "@/data/site";
+import tourImage from "@/assets/tour-wine.jpg";
 import { createFileRoute } from "@tanstack/react-router";
 import DetailedTourPage from "@/components/DetailedTourPage";
 import Navbar from "@/components/Navbar";
@@ -10,10 +12,12 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 export const Route = createFileRoute("/stellenbosch-wine-tour")({
   component: StellenboschWineTourPage,
   head: () =>
-    pageSeo(
+    tourSeo(
+      DETAILED_TOURS.winelands,
       "Private Cape Winelands Tour | RA2 Travel & Tours",
       "Explore Stellenbosch and Franschhoek with private transport and a tailored estate itinerary. Plan your Cape Winelands experience with RA2.",
       "/stellenbosch-wine-tour",
+      tourImage,
     ),
 });
 

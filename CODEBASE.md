@@ -4,8 +4,10 @@
 
 This is the existing React 19 / TypeScript / TanStack Start application, with
 file-based routing, Vite, Tailwind 4, Framer Motion, GSAP, Radix components and
-Supabase. The existing Cloudflare build configuration is retained. This work
-does not replace or deploy over the current public website.
+Supabase. Netlify's official TanStack Start adapter builds the server-rendered
+website and its server function. See [NETLIFY_SETUP.md](NETLIFY_SETUP.md) for
+hosting, the production domain and required environment settings. These local
+changes do not replace or deploy over the current public website.
 
 - `src/routes/__root.tsx`: shared HTML shell, fonts, theme, query/preferences
   providers, reduced-motion configuration, errors and toast notifications.
@@ -31,6 +33,9 @@ Public routes: `/`, `/packages` (Experiences), `/fleet`, `/gallery`, `/blog`,
 `/blog/$slug`, `/cape-peninsula-tour`, `/cape-town-city-tour`,
 `/stellenbosch-wine-tour`. Each has RA2 metadata and an absolute canonical URL.
 The sitemap includes these pages and articles; robots excludes the admin area.
+`src/data/public-pages.ts` holds the sitemap paths and explicit URL aliases.
+`src/lib/seo.ts` builds unique canonical/social metadata and business, website,
+page, breadcrumb, tour-service and article structured data.
 
 The existing country/currency preferences live in `src/lib/pricing.tsx`.
 Preference storage uses RA2 keys. Unverified inherited prices were removed;
@@ -95,14 +100,21 @@ Business content and verified social links were checked against
 
 ## Production preview and verification
 
-Run `npm run build`, then `npm run preview -- --ip 127.0.0.1 --port 5173`.
-The preview script runs the generated Cloudflare Worker locally with Wrangler;
-the imported Vite preview command looked for an incorrect dist/server path.
+Run `npm run build`, then
+`npm run preview -- --host 127.0.0.1 --port 4180`.
+The preview script serves the production Vite client and server output.
+Set `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4180` when running the browser suite
+against that production preview instead of the default development server.
 
-The production build, TypeScript check and both Edge Function checks passed.
-Six booking/email tests passed. The production browser suite passed 17 tests
-on desktop and mobile, with one desktop-only skip for a mobile menu test.
-Runtime checks covered booking receipts, optional WhatsApp details, retries,
+The Netlify production build and TypeScript check passed. The production
+browser suite passed 23 tests on desktop and mobile, with one mobile-menu test
+skipped on desktop. It includes a crawl of every sitemap page without
+JavaScript, internal links, section anchors, redirects and real HTTP 404s.
+The generated Netlify function also passed direct invocation checks for
+production, deploy-preview and branch-deploy indexing headers.
+Both Edge Function checks and six booking/email tests passed during the earlier
+rebrand; those functions are unchanged by the hosting migration.
+Runtime checks cover booking receipts, optional WhatsApp details, retries,
 network failures, service loading, public routes, SEO, responsive overflow,
 gallery keyboard controls, mobile navigation, sitemap and robots.
 

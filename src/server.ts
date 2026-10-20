@@ -2,14 +2,9 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { PAGE_ALIASES, PUBLIC_PATHS } from "./data/public-pages";
 
-type ServerEntry = {
-  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
-};
-
-declare global {
-  var __CLOUDFLARE_ENV__: Record<string, string> | undefined;
-}
+type ServerEntry = (typeof import("@tanstack/react-start/server-entry"))["default"];
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
@@ -25,7 +20,11 @@ async function getServerEntry(): Promise<ServerEntry> {
 function brandedErrorResponse(): Response {
   return new Response(renderErrorPage(), {
     status: 500,
-    headers: { "content-type": "text/html; charset=utf-8" },
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      "X-Robots-Tag": "noindex, nofollow",
+      "Cache-Control": "no-store",
+    },
   });
 }
 
@@ -70,18 +69,51 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
+function pageRedirect(request: Request): Response | undefined {
+  if (request.method !== "GET" && request.method !== "HEAD") return;
+  const url = new URL(request.url);
+  const path = url.pathname.replace(/\/+$/, "") || "/";
+  const destination =
+    PAGE_ALIASES[path] || (PUBLIC_PATHS.includes(path) && path !== url.pathname ? path : undefined);
+  if (!destination) return;
+  const target = new URL(destination, url);
+  target.search = url.search;
+  return new Response(null, {
+    status: 301,
+    headers: { Location: `${target.pathname}${target.search}${target.hash}` },
+  });
+}
+
+function responseHeaders(request: Request, response: Response): Response {
+  const path = new URL(request.url).pathname;
+  const privatePage = path === "/admin" || path.startsWith("/admin/") || path.startsWith("/api/");
+  const context = import.meta.env.RA2_DEPLOY_CONTEXT || process.env.CONTEXT || "";
+  const preview = ["deploy-preview", "branch-deploy", "preview-server", "dev"].includes(context);
+  const headers = new Headers(response.headers);
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  if (response.status >= 400 || privatePage || preview) {
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  if (privatePage || response.status >= 500) headers.set("Cache-Control", "no-store");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export default {
-  async fetch(request: Request, env: unknown, ctx: unknown) {
+  async fetch(request, ...options) {
     try {
-      if (env && typeof env === "object") {
-        globalThis.__CLOUDFLARE_ENV__ = env as Record<string, string>;
-      }
+      const redirect = pageRedirect(request);
+      if (redirect) return responseHeaders(request, redirect);
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const response = await handler.fetch(request, ...options);
+      return responseHeaders(request, await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
       return brandedErrorResponse();
     }
   },
-};
+} satisfies ServerEntry;

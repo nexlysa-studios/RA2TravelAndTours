@@ -20,52 +20,19 @@ import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  head: () => ({
-    ...pageSeo(
-      "Private Cape Town Tours | RA2 Travel & Tours",
-      SITE.description,
-      "/",
-    ),
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "TravelAgency",
-              "@id": SITE.url + "/#business",
-              name: SITE.name,
-              url: SITE.url,
-              description: SITE.description,
-              telephone: SITE.phoneRaw,
-              email: SITE.email,
-              areaServed: [
-                { "@type": "City", name: "Cape Town" },
-                { "@type": "Country", name: "South Africa" },
-              ],
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "10 Kestel Street, Plumstead",
-                addressLocality: "Cape Town",
-                addressRegion: "Western Cape",
-                addressCountry: "ZA",
-              },
-              sameAs: [SITE.facebook, SITE.instagram],
-            },
-            {
-              "@type": "FAQPage",
-              mainEntity: FAQS.map((f) => ({
-                "@type": "Question",
-                name: f.q,
-                acceptedAnswer: { "@type": "Answer", text: f.a },
-              })),
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo("Private Cape Town Tours | RA2 Travel & Tours", SITE.description, "/", {
+      schemas: [
+        {
+          "@type": "FAQPage",
+          mainEntity: FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        },
+      ],
+    }),
 });
 
 function Index() {

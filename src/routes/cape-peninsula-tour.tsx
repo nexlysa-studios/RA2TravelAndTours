@@ -1,4 +1,6 @@
-import { pageSeo } from "@/lib/seo";
+import { tourSeo } from "@/lib/seo";
+import { CAPE_PENINSULA_TOUR } from "@/data/site";
+import tourImage from "@/assets/tour-peninsula.jpg";
 import { createFileRoute } from "@tanstack/react-router";
 import CapePeninsulaTour from "@/components/CapePeninsulaTour";
 import Navbar from "@/components/Navbar";
@@ -10,10 +12,12 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 export const Route = createFileRoute("/cape-peninsula-tour")({
   component: CapePeninsulaTourPage,
   head: () =>
-    pageSeo(
+    tourSeo(
+      CAPE_PENINSULA_TOUR,
       "Private Cape Peninsula Tour | RA2 Travel & Tours",
       "Discover Cape Point, Boulders Beach, Hout Bay and Chapman's Peak on a private Cape Peninsula tour with RA2. Request a personalised quote.",
       "/cape-peninsula-tour",
+      tourImage,
     ),
 });
 

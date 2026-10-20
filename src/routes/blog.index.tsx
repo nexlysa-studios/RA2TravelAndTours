@@ -27,6 +27,7 @@ function BlogPage() {
       <main id="main-content" className="pt-24 lg:pt-32 pb-24">
         <section className="mx-auto max-w-7xl px-5 lg:px-8">
           <SectionHeader
+            as="h1"
             eyebrow="The RA2 Journal"
             title="Cape Town stories, guides & local tips"
             sub="Honest advice from the drivers and guides who live here — to help you plan a trip you'll actually remember."
@@ -57,12 +58,10 @@ function BlogPage() {
                 <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent">
                   Featured · {featured.category}
                 </span>
-                <h3 className="mt-3 font-display font-bold text-3xl lg:text-4xl text-balance">
+                <h2 className="mt-3 font-display font-bold text-3xl lg:text-4xl text-balance">
                   {featured.title}
-                </h3>
-                <p className="mt-4 text-muted-foreground text-lg">
-                  {featured.excerpt}
-                </p>
+                </h2>
+                <p className="mt-4 text-muted-foreground text-lg">{featured.excerpt}</p>
                 <div className="mt-6 flex items-center gap-5 text-sm text-muted-foreground">
                   <span className="inline-flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" />
@@ -91,11 +90,7 @@ function BlogPage() {
                 transition={{ duration: 0.5, delay: i * 0.05 }}
                 className="group bg-card rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
               >
-                <Link
-                  to="/blog/$slug"
-                  params={{ slug: post.slug }}
-                  className="block"
-                >
+                <Link to="/blog/$slug" params={{ slug: post.slug }} className="block">
                   <div className="aspect-[16/10] overflow-hidden">
                     <img
                       src={post.image}
@@ -139,8 +134,7 @@ function BlogPage() {
               Ready to experience Cape Town for yourself?
             </h3>
             <p className="mt-3 text-primary-foreground/80 max-w-2xl mx-auto">
-              Book a private shuttle or tour with RA2 and let our local team
-              handle every detail.
+              Book a private shuttle or tour with RA2 and let our local team handle every detail.
             </p>
             <Link
               to="/"

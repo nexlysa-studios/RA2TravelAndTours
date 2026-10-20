@@ -1,11 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { SectionHeader } from "./Section";
 import gebbaImg from "@/assets/corner.webp";
 import boatImg from "@/assets/Boat.jpg";
@@ -21,12 +16,7 @@ type GalleryImage = {
   span?: string;
 };
 
-const excludedGalleryFiles = [
-  /^Sponsor/i,
-  /^tour-/i,
-  /^hero-capetown/i,
-  /^WhatsApp Image/i,
-];
+const excludedGalleryFiles = [/^Sponsor/i, /^tour-/i, /^hero-capetown/i, /^WhatsApp Image/i];
 
 const allImages: GalleryImage[] = Object.entries(
   import.meta.glob("../assets/*.{jpg,jpeg,png,webp}", { eager: true }),
@@ -44,9 +34,7 @@ const allImages: GalleryImage[] = Object.entries(
 
     return {
       src: (module as { default: string }).default,
-      alt: fileName
-        .replace(/[-_]/g, " ")
-        .replace(/\b\w/g, (char) => char.toUpperCase()),
+      alt: fileName.replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
     };
   })
   .sort((a, b) => a.alt.localeCompare(b.alt));
@@ -61,14 +49,7 @@ const previewImages: GalleryImage[] = [
   { src: sunsetImg, alt: "Cape Town sunset tour" },
 ];
 
-const previewSpans = [
-  "row-span-2 col-span-2",
-  "col-span-2",
-  "row-span-2",
-  "",
-  "",
-  "",
-];
+const previewSpans = ["row-span-2 col-span-2", "col-span-2", "row-span-2", "", "", ""];
 
 export default function Gallery({ preview = false }: { preview?: boolean }) {
   const [open, setOpen] = useState<string | null>(null);
@@ -92,8 +73,9 @@ export default function Gallery({ preview = false }: { preview?: boolean }) {
     <section id="gallery" className="py-24 lg:py-32 bg-background">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeader
+          as={preview ? "h2" : "h1"}
           eyebrow="Gallery"
-          title="Moments from the road"
+          title={preview ? "Moments from the road" : "Cape Town, through our lens."}
           sub="A glimpse of the landscapes, wildlife and moments that make the Cape unforgettable."
         />
 
@@ -141,22 +123,16 @@ export default function Gallery({ preview = false }: { preview?: boolean }) {
         }}
       >
         <DialogContent className="z-[70] w-auto max-w-[95vw] border-0 bg-transparent p-0 shadow-none sm:max-w-[95vw] [&>button]:bg-background [&>button]:text-foreground [&>button]:rounded-full [&>button]:p-2">
-          <DialogTitle className="sr-only">
-            Cape Town travel photograph
-          </DialogTitle>
+          <DialogTitle className="sr-only">Cape Town travel photograph</DialogTitle>
           <DialogDescription className="sr-only">
-            Explore the full photograph. Press Escape or close to return to the
-            gallery.
+            Explore the full photograph. Press Escape or close to return to the gallery.
           </DialogDescription>
           {open && (
             <motion.img
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               src={open}
-              alt={
-                images.find((image) => image.src === open)?.alt ||
-                "Cape Town travel moment"
-              }
+              alt={images.find((image) => image.src === open)?.alt || "Cape Town travel moment"}
               className="max-h-[85svh] max-w-[90vw] rounded-xl object-contain shadow-glow"
             />
           )}

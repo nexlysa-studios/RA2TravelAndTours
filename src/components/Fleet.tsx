@@ -18,10 +18,7 @@ const fleetImages: string[] = [
     }),
   ).filter(([path]) => !excludedFleetFiles.has(getFileName(path))),
   ...Object.entries(
-    import.meta.glob(
-      ["../images/*.{jpg,jpeg,png,webp}", "!../images/*[Ll]ogo*"],
-      { eager: true },
-    ),
+    import.meta.glob(["../images/*.{jpg,jpeg,png,webp}", "!../images/*[Ll]ogo*"], { eager: true }),
   ).filter(([path]) => !isLogoFile(getFileName(path))),
 ]
   .map(([path, module]) => ({
@@ -37,9 +34,10 @@ export default function Fleet() {
     <section id="fleet" className="py-24 lg:py-32 bg-background scroll-mt-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeader
+          as="h1"
           eyebrow="Fleet Gallery"
-          title="Browse our Fleet Collection"
-          sub="A clean, modern display of our vehicles on the road."
+          title="Private transport for your Cape Town journey"
+          sub="Explore our fleet for private tours, airport transfers and chauffeur services. Your vehicle is confirmed with your personalised quote."
           textColor="text-foreground"
           subColor="text-foreground/70"
         />
@@ -52,7 +50,7 @@ export default function Fleet() {
             >
               <img
                 src={src}
-                alt={`Fleet image ${index + 1}`}
+                alt={`RA2 private transport fleet in Cape Town, photograph ${index + 1}`}
                 loading="lazy"
                 decoding="async"
                 className="h-72 w-full object-cover transition duration-500 ease-out hover:scale-105"

@@ -1,15 +1,31 @@
-// @lovable.dev/vite-tanstack-config already includes the following - do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - tanstackStart, viteReact, tailwindcss, tsConfigPaths, cloudflare (build-only),
-//     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
-//     error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... } }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig, loadEnv } from "vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import netlify from "@netlify/vite-plugin-tanstack-start";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-// @cloudflare/vite-plugin builds from this - wrangler.jsonc main alone is insufficient.
-export default defineConfig({
-  tanstackStart: {
-    server: { entry: "server" },
-  },
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd(), "VITE_SUPABASE_");
+  if (
+    command === "build" &&
+    (!(env.VITE_SUPABASE_URL || env.VITE_SUPABASE_PROJECT_ID) || !env.VITE_SUPABASE_PUBLISHABLE_KEY)
+  ) {
+    throw new Error(
+      "RA2 requires VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY. Add the public project settings in Netlify's build environment (or .env locally), then rebuild.",
+    );
+  }
+  return {
+    // Netlify's deploy context is build metadata; retain it in the SSR bundle.
+    define: {
+      "import.meta.env.RA2_DEPLOY_CONTEXT": JSON.stringify(process.env.CONTEXT || ""),
+    },
+    plugins: [
+      tsconfigPaths(),
+      tailwindcss(),
+      tanstackStart({ server: { entry: "server" } }),
+      react(),
+      netlify(),
+    ],
+  };
 });

@@ -1,4 +1,5 @@
-import { pageSeo } from "@/lib/seo";
+import { absoluteUrl, canonicalUrl, pageSeo } from "@/lib/seo";
+import { SITE } from "@/data/site";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
@@ -16,30 +17,40 @@ export const Route = createFileRoute("/blog/$slug")({
   },
   head: ({ loaderData }) => {
     const post = loaderData?.post;
-    if (!post) return { meta: [{ title: "Article - RA2 Travel & Tours" }] };
-    return {
-      links: pageSeo(
-        `${post.title} | RA2 Travel & Tours`,
-        post.excerpt,
-        `/blog/${post.slug}`,
-      ).links,
-      meta: [
-        ...pageSeo(
-          `${post.title} | RA2 Travel & Tours`,
-          post.excerpt,
-          `/blog/${post.slug}`,
-        ).meta,
-        { title: `${post.title} - RA2 Travel & Tours` },
-        { name: "description", content: post.excerpt },
-        { property: "og:title", content: post.title },
-        { property: "og:description", content: post.excerpt },
-        {
-          property: "og:image",
-          content: `https://ra2travelandtours.co.za${post.image}`,
-        },
-        { property: "og:type", content: "article" },
+    if (!post)
+      return {
+        meta: [
+          { title: "Article not found | RA2 Travel & Tours" },
+          { name: "robots", content: "noindex, nofollow" },
+        ],
+      };
+    const path = `/blog/${post.slug}`;
+    const publishedTime = new Date(`${post.date} 12:00:00 GMT+0200`).toISOString();
+    return pageSeo(`${post.title} | ${SITE.name}`, post.excerpt, path, {
+      image: post.image,
+      imageAlt: post.title,
+      type: "article",
+      publishedTime,
+      breadcrumbs: [
+        { name: "Travel Journal", path: "/blog" },
+        { name: post.title, path },
       ],
-    };
+      schemas: [
+        {
+          "@type": "BlogPosting",
+          "@id": `${canonicalUrl(path)}#article`,
+          headline: post.title,
+          description: post.excerpt,
+          image: absoluteUrl(post.image),
+          datePublished: publishedTime,
+          author: { "@type": "Organization", name: SITE.name, url: SITE.url },
+          publisher: { "@id": `${SITE.url}/#business` },
+          mainEntityOfPage: { "@id": `${canonicalUrl(path)}#webpage` },
+          articleSection: post.category,
+          inLanguage: "en-ZA",
+        },
+      ],
+    });
   },
   notFoundComponent: () => (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
@@ -54,9 +65,7 @@ export const Route = createFileRoute("/blog/$slug")({
   errorComponent: ({ error }) => (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground p-6">
       <div className="text-center">
-        <h1 className="font-display text-2xl font-bold">
-          Something went wrong
-        </h1>
+        <h1 className="font-display text-2xl font-bold">Something went wrong</h1>
         <p className="mt-2 text-muted-foreground">{error.message}</p>
         <Link to="/blog" className="mt-4 inline-block text-accent underline">
           Back to blog
@@ -95,9 +104,7 @@ function BlogPostPage() {
             <h1 className="mt-3 font-display font-bold text-4xl lg:text-5xl text-balance leading-tight">
               {post.title}
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground max-w-3xl">
-              {post.excerpt}
-            </p>
+            <p className="mt-5 text-lg text-muted-foreground max-w-3xl">{post.excerpt}</p>
             <div className="mt-6 flex items-center gap-5 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <Calendar className="h-4 w-4" />
@@ -134,8 +141,7 @@ function BlogPostPage() {
               Let us drive — you enjoy Cape Town
             </h3>
             <p className="mt-3 text-primary-foreground/80 max-w-xl mx-auto">
-              Private shuttles and tailor-made tours, run by locals who know the
-              city inside out.
+              Private shuttles and tailor-made tours, run by locals who know the city inside out.
             </p>
             <Link
               to="/"
@@ -150,9 +156,7 @@ function BlogPostPage() {
         {/* Related */}
         {related.length > 0 && (
           <section className="mx-auto max-w-7xl px-5 lg:px-8 mt-24">
-            <h2 className="font-display font-bold text-2xl lg:text-3xl">
-              Keep reading
-            </h2>
+            <h2 className="font-display font-bold text-2xl lg:text-3xl">Keep reading</h2>
             <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {related.map((p) => (
                 <Link
@@ -173,9 +177,7 @@ function BlogPostPage() {
                     <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
                       {p.category}
                     </span>
-                    <h3 className="mt-2 font-display font-bold text-lg text-balance">
-                      {p.title}
-                    </h3>
+                    <h3 className="mt-2 font-display font-bold text-lg text-balance">{p.title}</h3>
                   </div>
                 </Link>
               ))}

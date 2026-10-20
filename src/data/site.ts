@@ -1,12 +1,4 @@
-﻿import {
-  Compass,
-  Plane,
-  Sparkles,
-  Mountain,
-  Grape,
-  MapPin,
-  Binoculars,
-} from "lucide-react";
+﻿import { Compass, Plane, Sparkles, Mountain, Grape, MapPin, Binoculars } from "lucide-react";
 
 export const SITE = {
   name: "RA2 Travel & Tours",
@@ -18,9 +10,8 @@ export const SITE = {
   address: "10 Kestel Street, Plumstead, Cape Town, South Africa",
   tagline: "Your journey. Your South Africa.",
   description:
-    "Discover Cape Town and South Africa with RA2 Travel & Tours. Enjoy private tours, airport transfers, safari experiences, adventure activities and personalised travel itineraries.",
-  whatsappMsg:
-    "Hi RA2 Travel & Tours, I'd love some help planning my South African journey.",
+    "Book private Cape Town tours, Cape Peninsula day trips, Aquila safaris and airport transfers with RA2 Travel & Tours. Tailor-made travel across South Africa.",
+  whatsappMsg: "Hi RA2 Travel & Tours, I'd love some help planning my South African journey.",
   facebook: "https://www.facebook.com/119209587943809",
   instagram: "https://www.instagram.com/ra2travelandtours1/",
 };
@@ -88,15 +79,7 @@ export type PackageItem = {
   note: string;
   location: string;
   duration: string;
-  image:
-    | "safari"
-    | "peninsula"
-    | "city"
-    | "wine"
-    | "garden"
-    | "adventure"
-    | "transfer"
-    | "custom";
+  image: "safari" | "peninsula" | "city" | "wine" | "garden" | "adventure" | "transfer" | "custom";
   featured?: boolean;
   detailPath?: string;
   priceZar?: number;
@@ -269,11 +252,7 @@ export const DETAILED_TOURS: Record<string, DetailedTour> = {
       "Cape Point funicular",
       "A relaxed coastal lunch stop",
     ],
-    info: [
-      "Approximate duration: 8 hours",
-      "Private experience",
-      "Route subject to conditions",
-    ],
+    info: ["Approximate duration: 8 hours", "Private experience", "Route subject to conditions"],
     additionalInfo: planningNotes,
     closing:
       "A whole day of sea air, remarkable scenery and local stories. Let RA2 plan your private Cape Peninsula experience.",
@@ -305,12 +284,7 @@ export const DETAILED_TOURS: Record<string, DetailedTour> = {
         desc: "Signal Hill and scenic stops chosen around your interests and the day's conditions.",
       },
     ],
-    idealFor: [
-      "First-time visitors",
-      "Families",
-      "Couples",
-      "Corporate travellers",
-    ],
+    idealFor: ["First-time visitors", "Families", "Couples", "Corporate travellers"],
     included: [
       "Private transport and local guide",
       "Agreed pickup and drop-off",

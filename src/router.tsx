@@ -2,13 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { Link, createRouter, useRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
-function DefaultErrorComponent({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
 
   const router = useRouter();
@@ -53,6 +47,7 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
+    trailingSlash: "never",
     context: {
       queryClient,
     },

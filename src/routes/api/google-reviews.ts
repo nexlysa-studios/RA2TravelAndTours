@@ -19,13 +19,9 @@ type GooglePlaceDetailsPayload = {
 
 const getRuntimeEnv = (key: string) => {
   const viteEnv = import.meta.env as Record<string, string | undefined>;
-  const processEnv = globalThis.process?.env as
-    | Record<string, string | undefined>
-    | undefined;
+  const processEnv = globalThis.process?.env as Record<string, string | undefined> | undefined;
 
-  return (
-    viteEnv[key] || processEnv?.[key] || globalThis.__CLOUDFLARE_ENV__?.[key]
-  );
+  return viteEnv[key] || processEnv?.[key];
 };
 
 const jsonResponse = (payload: unknown, init?: ResponseInit) =>
@@ -53,9 +49,7 @@ export const Route = createFileRoute("/api/google-reviews")({
           );
         }
 
-        const url = new URL(
-          "https://maps.googleapis.com/maps/api/place/details/json",
-        );
+        const url = new URL("https://maps.googleapis.com/maps/api/place/details/json");
         url.search = new URLSearchParams({
           place_id: googlePlaceId,
           fields: "name,rating,url,reviews,formatted_address",
@@ -71,10 +65,7 @@ export const Route = createFileRoute("/api/google-reviews")({
         }
 
         const payload = (await response.json()) as GooglePlaceDetailsPayload;
-        if (
-          payload.status !== "OK" ||
-          !Array.isArray(payload.result?.reviews)
-        ) {
+        if (payload.status !== "OK" || !Array.isArray(payload.result?.reviews)) {
           return jsonResponse(
             {
               error: "Google reviews were unavailable.",
@@ -85,8 +76,7 @@ export const Route = createFileRoute("/api/google-reviews")({
           );
         }
 
-        if (!/ra2/i.test(payload.result.name ?? ""))
-          return jsonResponse({ reviews: [] });
+        if (!/ra2/i.test(payload.result.name ?? "")) return jsonResponse({ reviews: [] });
 
         const reviews = payload.result.reviews.slice(0, 6).map((review) => ({
           name: review.author_name,
@@ -102,8 +92,7 @@ export const Route = createFileRoute("/api/google-reviews")({
           },
           {
             headers: {
-              "Cache-Control":
-                "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
+              "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
             },
           },
         );

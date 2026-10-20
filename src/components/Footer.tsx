@@ -8,7 +8,7 @@ import {
   Instagram,
   ArrowUpRight,
 } from "lucide-react";
-import { NAV_LINKS, SITE, whatsappLink } from "@/data/site";
+import { FEATURED_PACKAGES, NAV_LINKS, SITE, whatsappLink } from "@/data/site";
 import Brand from "./Brand";
 
 export default function Footer() {
@@ -17,9 +17,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="mb-14 flex flex-col gap-6 border-b border-white/15 pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-gold text-xs uppercase tracking-[0.2em]">
-              Let's make it memorable
-            </p>
+            <p className="text-gold text-xs uppercase tracking-[0.2em]">Let's make it memorable</p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl">
               Where will your story take you?
             </h2>
@@ -37,9 +35,8 @@ export default function Footer() {
               <Brand light />
             </a>
             <p className="mt-5 text-white/70 text-sm leading-relaxed">
-              Private tours, remarkable adventures and personalised journeys in
-              Cape Town and across South Africa. Thoughtfully planned, warmly
-              hosted.
+              Private tours, remarkable adventures and personalised journeys in Cape Town and across
+              South Africa. Thoughtfully planned, warmly hosted.
             </p>
             <div className="mt-5 flex gap-3">
               {[
@@ -95,23 +92,15 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-display font-semibold mb-5">
-              Your next experience
-            </h3>
+            <h3 className="font-display font-semibold mb-5">Your next experience</h3>
             <ul className="space-y-3 text-sm text-white/70">
-              {[
-                "Private Cape Town tours",
-                "Cape Peninsula",
-                "Aquila safari",
-                "Cape Winelands",
-                "Garden Route",
-                "Adventure experiences",
-                "Airport transfers",
-                "Custom private tours",
-              ].map((t) => (
-                <li key={t}>
-                  <a href="/packages" className="hover:text-gold">
-                    {t}
+              {FEATURED_PACKAGES.map((item) => (
+                <li key={item.slug}>
+                  <a
+                    href={item.detailPath || `/?service=${encodeURIComponent(item.slug)}#book`}
+                    className="hover:text-gold"
+                  >
+                    {item.title}
                   </a>
                 </li>
               ))}
@@ -128,10 +117,7 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Mail className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <a
-                  href={`mailto:${SITE.email}`}
-                  className="hover:text-white break-all"
-                >
+                <a href={`mailto:${SITE.email}`} className="hover:text-white break-all">
                   {SITE.email}
                 </a>
               </li>
