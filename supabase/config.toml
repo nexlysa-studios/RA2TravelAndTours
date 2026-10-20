@@ -1,0 +1,8 @@
+project_id = "opqhpeiwimiadlpkrecb"
+
+[functions.create-booking]
+verify_jwt = false
+
+# Admin authentication and role checks are performed inside this function.
+[functions.send-booking-emails]
+verify_jwt = false
