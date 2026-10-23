@@ -1,12 +1,8 @@
 import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Compass, Clock, Heart, MapPin } from "lucide-react";
 import heroBackground from "@/assets/herobg.png";
+import HeroTrustBadge from "@/components/ui/testimonial";
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null);
@@ -42,7 +38,7 @@ export default function Hero() {
           initial={false}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="mb-5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-white/85"
+          className="mb-5 inline-flex rounded-full border border-white/20 bg-black/20 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90 shadow-sm backdrop-blur-sm sm:text-xs"
         >
           Private tours · Travel experiences · Airport transfers · Adventure
         </motion.p>
@@ -58,8 +54,8 @@ export default function Hero() {
         </motion.h1>
 
         <p className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-white/85">
-          Private tours, unforgettable adventures and personalised travel
-          experiences designed around you.
+          Private tours, unforgettable adventures and personalised travel experiences designed
+          around you.
         </p>
 
         <motion.div
@@ -80,6 +76,15 @@ export default function Hero() {
           >
             Plan Your Trip
           </a>
+        </motion.div>
+
+        <motion.div
+          initial={false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-7"
+        >
+          <HeroTrustBadge />
         </motion.div>
 
         <motion.div

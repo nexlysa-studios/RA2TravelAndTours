@@ -41,7 +41,7 @@ interface StaggeredMenuProps {
 
 const StaggeredMenu = ({
   position = "right",
-  colors = ["#52736b", "#2f4f4f"],
+  colors = ["#0797ce", "#153445"],
   items = [],
   socialItems = [],
   displaySocials = true,
@@ -50,7 +50,7 @@ const StaggeredMenu = ({
   logoUrl,
   menuButtonColor = "#fff",
   openMenuButtonColor = "#fff",
-  accentColor = "#926039",
+  accentColor = "#c42f32",
   changeMenuColorOnOpen = true,
   isFixed = false,
   closeOnClickAway = true,

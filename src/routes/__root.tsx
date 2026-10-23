@@ -86,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           SITE.description,
           "/",
         ).meta,
-        { name: "theme-color", content: "#2f4f4f" },
+        { name: "theme-color", content: "#087da5" },
         { name: "author", content: SITE.name },
       ],
       links: [

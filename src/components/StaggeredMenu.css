@@ -290,6 +290,9 @@
 
 .sm-panel-item {
   position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
   color: var(--foreground);
   font-weight: 600;
   font-family: var(--font-display);
@@ -300,9 +303,8 @@
   transition:
     background 0.25s,
     color 0.25s;
-  display: inline-block;
   text-decoration: none;
-  padding-right: 1.4em;
+  padding-right: 2.5rem;
 }
 
 .staggered-menu-panel .sm-socials-list .sm-socials-link {
@@ -314,9 +316,7 @@
   opacity: 0.35;
 }
 
-.staggered-menu-panel
-  .sm-socials-list:focus-within
-  .sm-socials-link:not(:focus-visible) {
+.staggered-menu-panel .sm-socials-list:focus-within .sm-socials-link:not(:focus-visible) {
   opacity: 0.35;
 }
 
@@ -344,7 +344,7 @@
   content: counter(smItem, decimal-leading-zero);
   position: absolute;
   top: 0.1em;
-  right: 2.8em;
+  right: 0;
   font-size: 18px;
   font-weight: 400;
   color: var(--accent, #ffc400);

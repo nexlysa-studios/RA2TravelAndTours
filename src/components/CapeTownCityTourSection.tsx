@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Wine, MapPin } from "lucide-react";
+import { ArrowUpRight, Clock3, MapPin, Wine } from "lucide-react";
 import { DETAILED_TOURS } from "@/data/site";
 import {
   Carousel,
@@ -82,16 +82,8 @@ export default function CapeTownCityTourSection() {
     };
   }, [emblaApi]);
 
-  useEffect(() => {
-    if (!emblaApi) return;
-    const interval = window.setInterval(() => {
-      emblaApi.scrollNext();
-    }, 5000);
-    return () => window.clearInterval(interval);
-  }, [emblaApi]);
-
   return (
-    <section className="py-24 lg:py-32 bg-background">
+    <section className="overflow-hidden bg-background py-16 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeader
           eyebrow="Featured tours"
@@ -99,133 +91,156 @@ export default function CapeTownCityTourSection() {
           sub="Discover three sides of the Cape, each with its own stories, scenery and a private itinerary shaped around you."
         />
 
-        <div className="mt-16 overflow-hidden">
+        <div className="mt-10 sm:mt-14">
           <Carousel
+            aria-label="Featured private tours"
             opts={{ loop: true, align: "start", containScroll: "trimSnaps" }}
             setApi={setEmblaApi}
-            className="relative"
+            className="relative mx-auto max-w-6xl"
           >
             <CarouselContent className="flex">
-              {slides.map((slide) => (
-                <CarouselItem key={slide.id} className="min-w-full pl-4">
-                  <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
-                    <Reveal>
-                      <div className="flex h-full flex-col justify-between p-8">
-                        <div>
-                          <div className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-accent-foreground">
-                            {slide.id === "peninsula" ? (
-                              <Wine className="h-4 w-4" />
-                            ) : (
-                              <MapPin className="h-4 w-4" />
-                            )}
-                            {slide.label}
-                          </div>
-                          <h2 className="mt-6 font-display text-4xl font-bold text-foreground sm:text-5xl">
-                            {slide.title}
-                          </h2>
-                          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-                            {slide.intro}
-                          </p>
-
-                          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                            {slide.tour.highlights
-                              .slice(0, 4)
-                              .map((highlight) => (
-                                <div
-                                  key={highlight.title}
-                                  className="rounded-[28px] border border-border bg-background/70 p-5 transition hover:border-accent/40 hover:shadow-sm"
-                                >
-                                  <div className="flex items-center gap-3 text-accent">
-                                    <MapPin className="h-4 w-4" />
-                                    <p className="font-semibold text-foreground">
-                                      {highlight.title}
-                                    </p>
-                                  </div>
-                                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                                    {highlight.desc}
-                                  </p>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                          <div className="flex flex-wrap gap-3">
-                            <Link
-                              to={slide.detailPath}
-                              className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-4 text-sm font-semibold text-accent-foreground shadow-glow transition hover:opacity-90"
-                            >
-                              View tour details
-                            </Link>
-                            <a
-                              href={`/?service=${slide.tour.slug}#book`}
-                              className="inline-flex items-center justify-center rounded-full border border-border bg-background px-7 py-4 text-sm font-semibold text-foreground transition hover:border-accent hover:text-accent"
-                            >
-                              Book now
-                            </a>
-                          </div>
-                          <div className="rounded-[28px] border border-border bg-secondary/20 px-5 py-4 text-sm text-muted-foreground">
-                            <span className="font-semibold text-foreground">
-                              Request a Quote
-                            </span>
-                            {slide.tour.priceNote ? (
-                              <span className="text-muted-foreground">
-                                {" "}
-                                · {slide.tour.priceNote}
-                              </span>
-                            ) : null}
-                          </div>
-                        </div>
+              {slides.map((slide, index) => (
+                <CarouselItem key={slide.id} className="pl-4">
+                  <article
+                    aria-label={`${slide.title} featured tour`}
+                    aria-roledescription="slide"
+                    className="grid overflow-hidden rounded-[28px] border border-border bg-card shadow-elegant lg:min-h-[600px] lg:grid-cols-[0.92fr_1.08fr] lg:rounded-[36px]"
+                  >
+                    <Reveal className="order-2 flex min-w-0 flex-col p-5 sm:p-8 lg:order-1 lg:p-10 xl:p-12">
+                      <div className="inline-flex w-fit items-center gap-2 rounded-full bg-accent/10 px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-accent sm:text-xs">
+                        {slide.id === "winelands" ? (
+                          <Wine className="h-4 w-4" />
+                        ) : (
+                          <MapPin className="h-4 w-4" />
+                        )}
+                        {slide.label}
                       </div>
+                      <h2 className="mt-5 font-display text-3xl font-bold leading-tight text-foreground sm:mt-6 sm:text-4xl xl:text-5xl">
+                        {slide.title}
+                      </h2>
+                      <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:text-base lg:text-lg">
+                        {slide.intro}
+                      </p>
+
+                      <div className="mt-5 flex flex-wrap gap-2 text-xs font-medium sm:mt-6">
+                        <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3.5 py-2 text-secondary-foreground">
+                          <MapPin className="h-3.5 w-3.5 text-accent" />
+                          {slide.tour.label}
+                        </span>
+                        <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3.5 py-2 text-secondary-foreground">
+                          <Clock3 className="h-3.5 w-3.5 text-accent" />
+                          Private chauffeur tour
+                        </span>
+                      </div>
+
+                      <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:gap-3">
+                        {slide.tour.highlights.slice(0, 4).map((highlight) => (
+                          <div
+                            key={highlight.title}
+                            className="rounded-2xl border border-border/80 bg-background/70 p-3.5 sm:rounded-[20px] sm:p-4"
+                          >
+                            <div className="flex items-start gap-2 text-accent">
+                              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                              <p className="text-xs font-semibold leading-snug text-foreground sm:text-sm">
+                                {highlight.title}
+                              </p>
+                            </div>
+                            <p className="mt-2 hidden text-xs leading-relaxed text-muted-foreground sm:block">
+                              {highlight.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 flex flex-col gap-3 sm:mt-auto sm:flex-row sm:flex-wrap sm:items-center sm:pt-8">
+                        <Link
+                          to={slide.detailPath}
+                          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-glow transition hover:-translate-y-0.5 hover:opacity-90"
+                        >
+                          Explore this tour
+                          <ArrowUpRight className="h-4 w-4" />
+                        </Link>
+                        <a
+                          href={`/?service=${slide.tour.slug}#book`}
+                          className="inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:bg-secondary"
+                        >
+                          Request a quote
+                        </a>
+                      </div>
+                      {slide.tour.priceNote && (
+                        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                          {slide.tour.priceNote}
+                        </p>
+                      )}
                     </Reveal>
 
-                    <Reveal>
-                      <div className="grid gap-4">
-                        <div className="overflow-hidden rounded-[28px]">
+                    <Reveal className="order-1 min-w-0 bg-secondary/40 p-3 sm:p-5 lg:order-2 lg:p-6">
+                      <div className="relative h-full min-h-[220px] sm:min-h-[320px] lg:min-h-[540px]">
+                        <div className="absolute inset-0 overflow-hidden rounded-[22px] sm:rounded-[28px]">
                           <img
                             src={slide.hero}
-                            alt={`${slide.title} hero image`}
-                            className="h-[420px] w-full object-cover"
+                            alt={`${slide.title} scenic view`}
+                            className="h-full min-h-[220px] w-full object-cover sm:min-h-[320px] lg:min-h-[540px]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-black/5" />
+                          <span className="absolute bottom-4 left-4 rounded-full border border-white/30 bg-black/30 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md sm:bottom-5 sm:left-5">
+                            {slide.label}
+                          </span>
+                        </div>
+                        <div className="absolute right-3 top-3 flex gap-2 sm:right-4 sm:top-4">
+                          <CarouselPrevious
+                            aria-label="Previous featured tour"
+                            className="static h-10 w-10 translate-y-0 border-white/60 bg-background/90 text-foreground shadow-lg backdrop-blur transition hover:bg-white sm:h-11 sm:w-11"
+                          />
+                          <CarouselNext
+                            aria-label="Next featured tour"
+                            className="static h-10 w-10 translate-y-0 border-white/60 bg-background/90 text-foreground shadow-lg backdrop-blur transition hover:bg-white sm:h-11 sm:w-11"
                           />
                         </div>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                          {slide.images.slice(0, 2).map((img, idx) => (
+                        <div className="absolute bottom-3 right-3 grid w-[min(45%,13rem)] grid-cols-2 gap-2 sm:bottom-4 sm:right-4 sm:w-[min(46%,17rem)] sm:gap-3">
+                          {slide.images.slice(0, 2).map((img, imageIndex) => (
                             <div
-                              key={idx}
-                              className="overflow-hidden rounded-[24px]"
+                              key={img}
+                              className="overflow-hidden rounded-xl border-2 border-white/90 shadow-lg sm:rounded-2xl"
                             >
                               <img
                                 src={img}
-                                alt={`${slide.title} image ${idx + 1}`}
-                                className="h-44 w-full object-cover"
+                                alt={`${slide.title} tour view ${imageIndex + 1}`}
+                                loading="lazy"
+                                className="aspect-[4/3] w-full object-cover"
                               />
                             </div>
                           ))}
                         </div>
                       </div>
                     </Reveal>
-                  </div>
+                  </article>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="text-foreground/80 shadow-glow" />
-            <CarouselNext className="text-foreground/80 shadow-glow" />
           </Carousel>
 
-          <div className="mt-6 flex justify-center gap-2">
+          <div
+            className="mt-5 flex items-center justify-center gap-2.5 sm:mt-7"
+            aria-label="Choose a featured tour"
+          >
             {slides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
                 onClick={() => emblaApi?.scrollTo(index)}
-                className={`h-2.5 w-2.5 rounded-full transition ${
+                className={`rounded-full transition-all duration-300 ${
                   selectedIndex === index
-                    ? "bg-accent"
-                    : "bg-muted-foreground/40"
+                    ? "h-2.5 w-8 bg-accent"
+                    : "h-2.5 w-2.5 bg-muted-foreground/35 hover:bg-muted-foreground/60"
                 }`}
                 aria-label={`Go to ${slide.title}`}
+                aria-current={selectedIndex === index ? "true" : undefined}
               />
             ))}
+            <span className="sr-only" aria-live="polite" aria-atomic="true">
+              {slides[selectedIndex].title}
+            </span>
           </div>
         </div>
       </div>

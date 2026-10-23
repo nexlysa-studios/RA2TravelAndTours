@@ -43,68 +43,81 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #faf9f6;
-  --foreground: #183d3c;
+  --background: #fbfaf7;
+  --foreground: #1c303a;
   --card: #ffffff;
-  --card-foreground: #183d3c;
+  --card-foreground: #1c303a;
   --popover: #ffffff;
-  --popover-foreground: #183d3c;
+  --popover-foreground: #1c303a;
 
-  /* RA2: dark teal from the existing site, warm ivory and bronze. */
-  --primary: #2f4f4f;
+  /* Logo-inspired ocean blue, confident red, and warm savanna gold. */
+  --primary: #087da5;
   --primary-foreground: #ffffff;
 
-  --secondary: #edf1ed;
-  --secondary-foreground: #183d3c;
-  --muted: #edf1ed;
-  --muted-foreground: #5d706b;
+  --secondary: #eaf4f7;
+  --secondary-foreground: #183b4c;
+  --muted: #eef2f2;
+  --muted-foreground: #586a72;
 
-  /* Bronze actions meet contrast requirements with white labels. */
-  --accent: #926039;
+  --accent: #c42f32;
   --accent-foreground: #ffffff;
 
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: #dce4de;
-  --input: #dce4de;
-  --ring: #2f4f4f;
+  --border: #dce6e8;
+  --input: #dce6e8;
+  --ring: #087da5;
 
-  --ocean: #52736b;
-  --navy: #123333;
-  --sunset: #926039;
-  --gold: #e3bf91;
+  --ocean: #0797ce;
+  --navy: #153445;
+  --sunset: #985d25;
+  --gold: #f0bd2d;
 
-  --gradient-ocean: linear-gradient(135deg, #345b55, #123333);
-  --gradient-sunset: linear-gradient(135deg, #926039, #754b2d);
+  --gradient-ocean: linear-gradient(135deg, #078fc4 0%, #087da5 48%, #153445 100%);
+  --gradient-sunset: linear-gradient(135deg, #d74335, #a9292d);
   --gradient-hero: linear-gradient(
     180deg,
-    rgb(12 35 34 / 0.25) 0%,
-    rgb(12 35 34 / 0.4) 45%,
-    rgb(12 35 34 / 0.93) 100%
+    rgb(15 42 57 / 0.2) 0%,
+    rgb(15 42 57 / 0.43) 45%,
+    rgb(15 42 57 / 0.94) 100%
   );
 
-  --shadow-elegant: 0 20px 60px -20px rgb(18 51 51 / 0.18);
-  --shadow-glow: 0 8px 30px -12px rgb(146 96 57 / 0.4);
+  --shadow-elegant: 0 20px 60px -20px rgb(21 52 69 / 0.18);
+  --shadow-glow: 0 8px 30px -12px rgb(196 47 50 / 0.38);
 }
 
 .dark {
-  --background: #102e2c;
-  --foreground: #faf9f6;
-  --card: #183d3c;
-  --card-foreground: #faf9f6;
-  --popover: #183d3c;
-  --popover-foreground: #faf9f6;
-  --primary: #e3bf91;
-  --primary-foreground: #123333;
-  --secondary: #254b46;
-  --secondary-foreground: #faf9f6;
-  --muted: #254b46;
-  --muted-foreground: #bdcec4;
-  --accent: #e3bf91;
-  --accent-foreground: #123333;
-  --border: #365b53;
-  --input: #365b53;
-  --ring: #e3bf91;
+  --background: #102a37;
+  --foreground: #f8f7f2;
+  --card: #183846;
+  --card-foreground: #f8f7f2;
+  --popover: #183846;
+  --popover-foreground: #f8f7f2;
+  --primary: #42b8de;
+  --primary-foreground: #102a37;
+  --secondary: #214657;
+  --secondary-foreground: #f8f7f2;
+  --muted: #214657;
+  --muted-foreground: #bfced2;
+  --accent: #ed6961;
+  --accent-foreground: #102a37;
+  --border: #355564;
+  --input: #355564;
+  --ring: #42b8de;
+  --ocean: #42b8de;
+  --navy: #0b202c;
+  --sunset: #d79b55;
+  --gold: #ffd44e;
+  --gradient-ocean: linear-gradient(135deg, #087da5 0%, #153445 100%);
+  --gradient-sunset: linear-gradient(135deg, #ed6961, #a9292d);
+  --gradient-hero: linear-gradient(
+    180deg,
+    rgb(8 32 46 / 0.2) 0%,
+    rgb(8 32 46 / 0.43) 45%,
+    rgb(8 32 46 / 0.94) 100%
+  );
+  --shadow-elegant: 0 20px 60px -20px rgb(0 0 0 / 0.35);
+  --shadow-glow: 0 8px 30px -12px rgb(237 105 97 / 0.42);
 }
 
 @layer base {

@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.7fr_0.9fr_1.3fr]">
           <div>
             <a href="/" aria-label="RA2 Travel & Tours home">
-              <Brand light />
+              <Brand className="h-20" />
             </a>
             <p className="mt-5 text-white/70 text-sm leading-relaxed">
               Private tours, remarkable adventures and personalised journeys in Cape Town and across

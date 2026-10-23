@@ -5,11 +5,7 @@ import Brand from "./Brand";
 import CountrySelector from "./CountrySelector";
 import StaggeredMenu from "./StaggeredMenu";
 
-export default function Navbar({
-  forceTransformed = false,
-}: {
-  forceTransformed?: boolean;
-}) {
+export default function Navbar({ forceTransformed = false }: { forceTransformed?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const transformed = forceTransformed || scrolled;
   useEffect(() => {
@@ -33,12 +29,9 @@ export default function Navbar({
       </a>
       <div className="mx-auto max-w-7xl px-5 lg:px-8 h-20 lg:h-24 flex items-center justify-between gap-4">
         <a href="/" aria-label="RA2 Travel & Tours home" className="shrink-0">
-          <Brand light={!transformed} />
+          <Brand className="h-16" />
         </a>
-        <nav
-          aria-label="Main navigation"
-          className="hidden xl:flex items-center gap-0.5"
-        >
+        <nav aria-label="Main navigation" className="hidden xl:flex items-center gap-0.5">
           {NAV_LINKS.map((l) => (
             <a
               key={l.label}
@@ -58,15 +51,17 @@ export default function Navbar({
         <StaggeredMenu
           className="xl:hidden"
           position="right"
-          items={[...NAV_LINKS, { href: "/#book", label: "Book Now" }].map(
-            (l) => ({ label: l.label, ariaLabel: l.label, link: l.href }),
-          )}
+          items={[...NAV_LINKS, { href: "/#book", label: "Book Now" }].map((l) => ({
+            label: l.label,
+            ariaLabel: l.label,
+            link: l.href,
+          }))}
           displaySocials={false}
           displayItemNumbering={true}
-          menuButtonColor={transformed ? "#183d3c" : "#fff"}
-          openMenuButtonColor="#183d3c"
-          colors={["#52736b", "#2f4f4f"]}
-          accentColor="#926039"
+          menuButtonColor={transformed ? "#153445" : "#fff"}
+          openMenuButtonColor="#153445"
+          colors={["#0797ce", "#153445"]}
+          accentColor="#c42f32"
           isFixed={true}
           bottomContent={<CountrySelector />}
         />
