@@ -6,9 +6,7 @@ test("RA2 identity, fonts and layout render correctly", async ({ page }, testInf
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page).toHaveTitle("Private Cape Town Tours | RA2 Travel & Tours");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Discover Cape Town.Experience South Africa.",
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Take thescenic route.");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://ra2travelandtours.co.za/",
@@ -56,17 +54,9 @@ test("mobile menu navigates to the airport section", async ({ page, isMobile }) 
   test.skip(!isMobile, "Mobile menu interaction");
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.getByRole("button", { name: "Open menu" }).click();
-  await expect(page.getByRole("button", { name: "Close menu" })).toHaveAttribute(
-    "aria-expanded",
-    "true",
-  );
-  const menuLinks = page.locator("#staggered-menu-panel .sm-panel-item");
-  await expect(menuLinks.first()).toBeVisible();
-  expect(await menuLinks.first().evaluate((link) => getComputedStyle(link, "::after").right)).toBe(
-    "0px",
-  );
+  await expect(page.getByRole("dialog")).toBeVisible();
   await page
-    .locator("#staggered-menu-panel")
+    .getByRole("navigation", { name: "Mobile navigation" })
     .getByRole("link", { name: "Airport Transfers", exact: true })
     .click();
   await expect(page).toHaveURL(/#transfers$/);
@@ -75,26 +65,26 @@ test("mobile menu navigates to the airport section", async ({ page, isMobile }) 
     "false",
   );
   await expect(
-    page.getByRole("heading", { name: "Arrive relaxed. Leave with memories." }),
+    page.getByRole("heading", { name: /A warm welcome\.\s*A smooth arrival\./ }),
   ).toBeInViewport();
 });
 
-test("featured tours carousel is usable across screen sizes", async ({ page }) => {
+test("journey filters show matching experiences and preserve service links", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  const featuredTours = page.getByRole("region", {
-    name: "Featured private tours",
-  });
-  await featuredTours.scrollIntoViewIfNeeded();
-  await expect(featuredTours.getByRole("heading", { name: "Cape Town City Tour" })).toBeVisible();
+  const journeys = page.locator("#tours");
+  await expect(journeys.locator("article")).toHaveCount(6);
+  await journeys.getByRole("button", { name: /Wine & wildlife/ }).click();
+  await expect(journeys.locator("article")).toHaveCount(2);
+  await expect(journeys.getByRole("heading", { name: "Cape Winelands" })).toBeVisible();
+  await expect(journeys.getByRole("heading", { name: "Aquila Game Reserve Safari" })).toBeVisible();
   await expect(
-    featuredTours.getByRole("button", { name: "Next featured tour" }).first(),
-  ).toBeEnabled();
-  await featuredTours.getByRole("button", { name: "Next featured tour" }).first().click();
-  await expect(page.getByRole("button", { name: "Go to Stellenbosch Wine Tour" })).toHaveAttribute(
-    "aria-current",
-    "true",
-  );
+    journeys.getByRole("link", { name: "Explore Aquila Game Reserve Safari", exact: true }),
+  ).toHaveAttribute("href", "/?service=aquila-safari#book");
+  await journeys.getByRole("button", { name: /Coast & city/ }).click();
+  await expect(journeys.getByRole("heading", { name: "Cape Town City Tour" })).toBeVisible();
+  await journeys.getByRole("button", { name: /All journeys/ }).click();
+  await expect(journeys.locator("article")).toHaveCount(6);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -205,9 +195,26 @@ test("sitemap and robots use the production RA2 domain", async ({ request }) => 
 
 test("gallery supports opening a photograph and closing with Escape", async ({ page }) => {
   await page.goto("/gallery", { waitUntil: "domcontentloaded" });
-  const photograph = page.locator("#gallery button").first();
+  const photograph = page.getByRole("button", { name: /^View photograph:/ }).first();
   await photograph.click();
   await expect(page.getByRole("dialog", { name: "Cape Town travel photograph" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toBeHidden();
+  await expect(photograph).toBeFocused();
+});
+
+test("gallery filters and keyboard controls explore the selected collection", async ({ page }) => {
+  await page.goto("/gallery", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: /Wildlife/ }).click();
+  await expect(page.getByRole("status")).toHaveText("2 photographs");
+  await page.getByRole("button", { name: "View photograph: A different kind of local" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("heading", { name: "A different kind of local" })).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(dialog.getByRole("heading", { name: "Life on the Atlantic coast" })).toBeVisible();
+  await dialog.getByRole("button", { name: "Next photograph" }).click();
+  await expect(dialog.getByRole("heading", { name: "A different kind of local" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: /All frames/ }).click();
+  await expect(page.getByRole("button", { name: /^View photograph:/ })).toHaveCount(14);
 });

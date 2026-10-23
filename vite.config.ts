@@ -25,7 +25,11 @@ export default defineConfig(({ command, mode }) => {
       tailwindcss(),
       tanstackStart({ server: { entry: "server" } }),
       react(),
-      netlify(),
+      netlify({
+        // Bookings use hosted Supabase Edge Functions. No Netlify edge runtime
+        // is needed locally; its Deno emulator can fail on unsupported flags.
+        dev: { edgeFunctions: { enabled: false } },
+      }),
     ],
   };
 });

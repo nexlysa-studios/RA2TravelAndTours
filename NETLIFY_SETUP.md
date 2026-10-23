@@ -75,6 +75,12 @@ server-rendered application, and unknown pages must return an actual 404.
 
 ## Local production verification
 
+The Vite configuration disables Netlify Edge Functions emulation during local
+development. This project uses Netlify's Node server function for SSR and
+hosted Supabase Edge Functions for bookings. The unused Netlify Deno emulator
+can otherwise fail at startup with `unexpected argument '--allow-scripts'`.
+Run `npm run dev` normally; no local Netlify edge server is required.
+
 ```sh
 npm ci
 npm run typecheck

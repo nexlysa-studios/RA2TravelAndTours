@@ -1,9 +1,9 @@
 import { pageSeo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
-import Navbar from "@/components/Navbar";
-import Gallery from "@/components/Gallery";
-import Partners from "@/components/Partners";
-import Footer from "@/components/Footer";
+import { TravelHeader, TravelFooter } from "@/components/home/TravelChrome";
+import GalleryExperience from "@/components/gallery/GalleryExperience";
+import "@/components/home/travel.css";
+import "@/components/gallery/gallery.css";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export const Route = createFileRoute("/gallery")({
@@ -19,12 +19,11 @@ export const Route = createFileRoute("/gallery")({
 function GalleryPage() {
   return (
     <div className="bg-background text-foreground">
-      <Navbar forceTransformed />
+      <TravelHeader />
       <main id="main-content">
-        <Gallery />
-        <Partners />
+        <GalleryExperience />
       </main>
-      <Footer />
+      <TravelFooter />
       <FloatingWhatsApp />
     </div>
   );

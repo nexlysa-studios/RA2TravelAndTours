@@ -1,18 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import ServiceOptions from "@/components/ServiceOptions";
-import Services from "@/components/Services";
-import WhyUs from "@/components/WhyUs";
-import CapeTownCityTourSection from "@/components/CapeTownCityTourSection";
-import Tours from "@/components/Tours";
-import About from "@/components/About";
-import Testimonials from "@/components/Testimonials";
 import Gallery from "@/components/Gallery";
 import Booking from "@/components/Booking";
-import FAQ from "@/components/FAQ";
-import Partners from "@/components/Partners";
-import Footer from "@/components/Footer";
+import { TravelHeader, TravelFooter } from "@/components/home/TravelChrome";
+import {
+  HomeHero,
+  JourneyCollection,
+  HomeStory,
+  HomeTransfers,
+  HomePlanning,
+  HomeQuestions,
+} from "@/components/home/HomeExperience";
+import "@/components/home/travel.css";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 import { SITE, FAQS } from "@/data/site";
@@ -37,23 +35,19 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="bg-background text-foreground">
-      <Navbar />
+    <div className="ra2-home bg-background text-foreground">
+      <TravelHeader />
       <main id="main-content">
-        <Hero />
-        <ServiceOptions />
-        <Services />
-        <WhyUs />
-        <CapeTownCityTourSection />
-        <Tours />
-        <About />
-        <Testimonials />
+        <HomeHero />
+        <JourneyCollection />
+        <HomeStory />
+        <HomeTransfers />
         <Gallery preview />
+        <HomePlanning />
         <Booking />
-        <FAQ />
-        <Partners />
+        <HomeQuestions />
       </main>
-      <Footer />
+      <TravelFooter />
       <FloatingWhatsApp />
     </div>
   );

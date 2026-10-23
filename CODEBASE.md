@@ -11,22 +11,27 @@ changes do not replace or deploy over the current public website.
 
 - `src/routes/__root.tsx`: shared HTML shell, fonts, theme, query/preferences
   providers, reduced-motion configuration, errors and toast notifications.
-- `src/routes/index.tsx`: the existing home-page section composition.
+- `src/routes/index.tsx`: the redesigned single-page home experience.
+- `src/components/home/HomeExperience.tsx`: split photographic hero, filtered
+  journey collection, local story, airport transfers, planning steps and FAQs.
+- `src/components/home/TravelChrome.tsx`: shared header and footer for the new
+  homepage and gallery, with a keyboard-accessible mobile navigation dialog.
+- `src/components/home/travel.css`: scoped presentation rules for these pages.
+  The booking wizard is reused without changing its data or submission logic.
+- `src/components/gallery/GalleryExperience.tsx`: curated standalone gallery,
+  category filters, captions and an accessible lightbox with arrow-key
+  navigation and focus restoration. Its layout is in `gallery/gallery.css`.
+- The homepage still uses the existing `Gallery preview` photo reel unchanged.
 - `src/data/site.ts`: RA2 identity, contact links, service marketing content,
   experience catalogue, detailed itineraries, FAQs and travel styles.
-- `src/styles.css`: RA2 dark teal, warm ivory and bronze tokens; Outfit headings
+- `src/styles.css`: current RA2 ocean blue, red, gold and ivory tokens; Outfit headings
   and Manrope body text. Fonts are served from public/fonts with their OFL licenses. Existing photography/video files are retained.
-- `src/components/Navbar.tsx`: desktop navigation and the retained animated
-  mobile menu. Anchor links work across routes.
-- `src/components/Hero.tsx`: full-screen herobg.png background and scroll animation.
-- `src/components/ServiceOptions.tsx`: transport tabs and airport transfer details.
-- `src/components/CapeTownCityTourSection.tsx`: retained city/Winelands/Peninsula
-  carousel. `Tours.tsx` and `PackageCard.tsx` show RA2's featured experiences.
-- `src/components/Gallery.tsx` and `Fleet.tsx`: existing asset galleries.
-- `src/components/Testimonials.tsx`: travel-style carousel in the existing
-  animated section; the copied client's reviews were removed.
-- `src/components/Partners.tsx`: animated destinations strip. Previous client
-  and sponsor endorsements are no longer asserted.
+- `src/components/Navbar.tsx` and `Footer.tsx`: existing navigation used by
+  supplementary public routes. `PackageCard.tsx` still serves `/packages`.
+- The former homepage components remain in the repository for supplementary
+  routes and references, but are no longer composed on the homepage.
+- `src/components/Gallery.tsx`: existing homepage photo reel, preserved intact.
+- `Fleet.tsx`: existing fleet gallery.
 - `src/data/blog.ts`: static travel articles, retained with RA2 copy.
 
 Public routes: `/`, `/packages` (Experiences), `/fleet`, `/gallery`, `/blog`,
@@ -107,7 +112,7 @@ Set `PLAYWRIGHT_BASE_URL=http://127.0.0.1:4180` when running the browser suite
 against that production preview instead of the default development server.
 
 The Netlify production build and TypeScript check passed. The production
-browser suite passed 23 tests on desktop and mobile, with one mobile-menu test
+browser suite passed 29 tests on desktop and mobile, with one mobile-menu test
 skipped on desktop. It includes a crawl of every sitemap page without
 JavaScript, internal links, section anchors, redirects and real HTTP 404s.
 The generated Netlify function also passed direct invocation checks for
@@ -117,6 +122,14 @@ rebrand; those functions are unchanged by the hosting migration.
 Runtime checks cover booking receipts, optional WhatsApp details, retries,
 network failures, service loading, public routes, SEO, responsive overflow,
 gallery keyboard controls, mobile navigation, sitemap and robots.
+
+The homepage/gallery redesign also passed journey-category filters, gallery
+filters, photo navigation and focus restoration, mobile menu section jumps and
+the preserved homepage photo-reel checks. Visual QA found no JavaScript errors
+or broken images. Both pages fit widths from 320px to 1920px, and the lightbox
+fits a short 844x390 landscape viewport. The booking component, homepage reel,
+global fonts/palette, Supabase functions, shared validation and server entry
+remain unchanged from the pulled version.
 
 RA2 domain verification in Resend is intentionally pending the owner's DNS setup
 at hosting time. Customer and admin email delivery cannot be verified until then.
