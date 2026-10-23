@@ -16,6 +16,9 @@ export default defineConfig(({ command, mode }) => {
     );
   }
   return {
+    // Compile GSAP into the server bundle. Leaving it external lets Netlify's
+    // Node runtime resolve its CommonJS entry and reject named ESM exports.
+    ssr: { noExternal: [/^gsap(?:\/|$)/] },
     // Netlify's deploy context is build metadata; retain it in the SSR bundle.
     define: {
       "import.meta.env.RA2_DEPLOY_CONTEXT": JSON.stringify(process.env.CONTEXT || ""),

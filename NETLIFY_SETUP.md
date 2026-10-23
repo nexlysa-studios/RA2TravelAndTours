@@ -75,6 +75,13 @@ server-rendered application, and unknown pages must return an actual 404.
 
 ## Local production verification
 
+GSAP is bundled into SSR with `ssr.noExternal` in `vite.config.ts`. This avoids
+Netlify's Node runtime trying to resolve its CommonJS entry as a named ESM
+export (`Named export 'gsap' not found`). `npm run build` runs a post-build
+check that rejects external GSAP imports and directly loads the generated
+Netlify function to render key public pages and a real 404. See
+[Vite's SSR dependency configuration](https://vite.dev/config/ssr-options.html#ssr-noexternal).
+
 The Vite configuration disables Netlify Edge Functions emulation during local
 development. This project uses Netlify's Node server function for SSR and
 hosted Supabase Edge Functions for bookings. The unused Netlify Deno emulator
