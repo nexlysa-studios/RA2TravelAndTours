@@ -1,122 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import cape from "@/assets/goodhope.webp";
-import penguins from "@/assets/Pengi.webp";
-import seal from "@/assets/SEAL.webp";
-import sunset from "@/assets/sunset2.webp";
-import wine from "@/assets/winefarm.webp";
-import wine2 from "@/assets/wine2.webp";
-import boat from "@/assets/Boat.jpg";
-import bokaap from "@/assets/Bokaap.webp";
-import food from "@/assets/corner.webp";
-import heli from "@/assets/Heli-pilot.jpg";
-import capePoint from "@/assets/Capeofgoodhope.jpg";
-import sunsetGirl from "@/assets/Sunset-girl.jpg";
-import breakfast from "@/assets/Breakfast.webp";
-import gatsby from "@/assets/Gatsby.jpg";
+import { galleryPhotos } from "@/data/gallery";
 
-const photographs = [
-  {
-    src: cape,
-    title: "At the edge of the Cape",
-    category: "Coast & ocean",
-    location: "Cape of Good Hope",
-    shape: "landscape",
-  },
-  {
-    src: bokaap,
-    title: "The city's colourful side",
-    category: "People & places",
-    location: "Bo-Kaap",
-    shape: "portrait",
-  },
-  {
-    src: penguins,
-    title: "A different kind of local",
-    category: "Wildlife",
-    location: "Boulders Beach",
-    shape: "portrait",
-  },
-  {
-    src: wine,
-    title: "Time slows down here",
-    category: "Winelands",
-    location: "Cape Winelands",
-    shape: "landscape",
-  },
-  {
-    src: sunset,
-    title: "Stay for the last light",
-    category: "Coast & ocean",
-    location: "Cape Town",
-    shape: "portrait",
-  },
-  {
-    src: boat,
-    title: "A view from the water",
-    category: "Coast & ocean",
-    location: "Cape Town",
-    shape: "landscape",
-  },
-  {
-    src: food,
-    title: "The best kind of shared table",
-    category: "People & places",
-    location: "Cape Town",
-    shape: "portrait",
-  },
-  {
-    src: seal,
-    title: "Life on the Atlantic coast",
-    category: "Wildlife",
-    location: "The Cape coast",
-    shape: "landscape",
-  },
-  {
-    src: wine2,
-    title: "An unhurried afternoon",
-    category: "Winelands",
-    location: "Cape Winelands",
-    shape: "portrait",
-  },
-  {
-    src: capePoint,
-    title: "Where the land meets the sea",
-    category: "Coast & ocean",
-    location: "Cape Peninsula",
-    shape: "portrait",
-  },
-  {
-    src: heli,
-    title: "Take a different perspective",
-    category: "People & places",
-    location: "Cape Town",
-    shape: "landscape",
-  },
-  {
-    src: sunsetGirl,
-    title: "A moment to take it all in",
-    category: "People & places",
-    location: "Cape Town",
-    shape: "portrait",
-  },
-  {
-    src: breakfast,
-    title: "A good start to the day",
-    category: "People & places",
-    location: "Cape Town",
-    shape: "landscape",
-  },
-  {
-    src: gatsby,
-    title: "A taste of the Cape",
-    category: "People & places",
-    location: "Cape Town",
-    shape: "landscape",
-  },
-];
-const categories = ["All frames", "Coast & ocean", "People & places", "Wildlife", "Winelands"];
+const photographs = galleryPhotos;
+const categories = ["All frames", "Coast & ocean", "People & places", "Adventure", "Winelands"];
 
 export default function GalleryExperience() {
   const [category, setCategory] = useState(categories[0]);
@@ -180,11 +68,7 @@ export default function GalleryExperience() {
           </div>
         </div>
         <div className="travel-gallery-cover">
-          <img
-            src={cape}
-            alt="A group stopping at the Cape of Good Hope on the Cape Peninsula"
-            fetchPriority="high"
-          />
+          <img src={galleryPhotos[0].src} alt={galleryPhotos[0].alt} fetchPriority="high" />
           <div>
             <MapPin size={14} />
             Cape Peninsula, South Africa<span>There's more around every corner.</span>

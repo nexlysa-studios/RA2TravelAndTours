@@ -10,15 +10,14 @@ import {
   Plus,
 } from "lucide-react";
 import { FAQS, PACKAGES, whatsappLink } from "@/data/site";
-import hero from "@/assets/herobg.png";
+import hero from "@/assets/heroluxury.webp";
 import peninsula from "@/assets/tour-peninsula.jpg";
 import wine from "@/assets/tour-wine.jpg";
 import safari from "@/assets/tour-safari.jpg";
 import city from "@/assets/tour-table.jpg";
 import garden from "@/assets/tour-westcoast.jpg";
 import adventure from "@/assets/Heli-pilot.jpg";
-import penguins from "@/assets/Pengi.webp";
-import bokaap from "@/assets/Bokaap.webp";
+import { galleryPhotos } from "@/data/gallery";
 
 const images: Record<string, string> = { peninsula, wine, safari, city, garden, adventure };
 const groups = ["All journeys", "Coast & city", "Wine & wildlife", "Adventure & beyond"];
@@ -75,14 +74,14 @@ export function HomeHero() {
       <div className="travel-hero-photo">
         <img
           src={hero}
-          alt="A winding coastal road beneath Cape Town's mountains at sunset"
+          alt="A private jet and luxury vehicle ready for a premium airport arrival"
           fetchPriority="high"
-          width={1672}
-          height={941}
+          width={1024}
+          height={683}
         />
         <div className="travel-photo-label">
           <MapPin size={15} />
-          <span>The Atlantic coast, Cape Town</span>
+          <span>A premium Cape Town arrival</span>
         </div>
         <a href="#tours" className="travel-photo-index" aria-label="Discover our private journeys">
           <span>
@@ -190,25 +189,18 @@ export function HomeStory() {
   return (
     <section id="about" className="travel-story travel-section">
       <div className="travel-container travel-story-grid">
-        <div className="travel-story-photos">
+        <div className="travel-story-photos travel-story-photos--team">
           <figure className="travel-story-main">
             <img
-              src={bokaap}
-              alt="A colourful day exploring the streets of Bo-Kaap"
+              className="travel-story-team-photo"
+              src={galleryPhotos[2].src}
+              alt="RA2 travellers enjoying a Cape Peninsula lookout and sharing a meal together"
               loading="lazy"
-              width={1200}
-              height={902}
+              width={287}
+              height={512}
             />
-            <figcaption>Colourful corners. A slower kind of exploring.</figcaption>
+            <figcaption>Good company, local places, and time well spent together.</figcaption>
           </figure>
-          <img
-            className="travel-story-inset"
-            src={penguins}
-            alt="African penguins at Boulders Beach"
-            loading="lazy"
-            width={640}
-            height={800}
-          />
         </div>
         <div className="travel-story-copy">
           <p className="travel-eyebrow">02 / Local roots. Personal journeys.</p>

@@ -414,6 +414,16 @@
   object-fit: cover;
   object-position: 35% center;
 }
+.travel-story-photos.travel-story-photos--team {
+  padding: 0;
+}
+.travel-story-photos--team .travel-story-main img {
+  width: min(100%, 300px);
+  height: auto;
+  aspect-ratio: 287 / 512;
+  object-fit: contain;
+  object-position: center;
+}
 .travel-story-main figcaption {
   font-size: 10px;
   color: #fff9;

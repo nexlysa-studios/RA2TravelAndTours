@@ -3,54 +3,13 @@ import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { TiltedGridHero } from "@/components/ui/tilted-grid-hero";
 import { SectionHeader } from "./Section";
-import gebbaImg from "@/assets/corner.webp";
-import boatImg from "@/assets/Boat.jpg";
-import capeImg from "@/assets/goodhope.webp";
-import pengiImg from "@/assets/Pengi.webp";
-import sealImg from "@/assets/SEAL.webp";
-import sunsetImg from "@/assets/sunset2.webp";
-import wineImg from "@/assets/winefarm.webp";
+import { galleryPhotos } from "@/data/gallery";
 
 type GalleryImage = {
   src: string;
   alt: string;
   span?: string;
 };
-
-const excludedGalleryFiles = [/^Sponsor/i, /^tour-/i, /^hero-capetown/i, /^WhatsApp Image/i];
-
-const allImages: GalleryImage[] = Object.entries(
-  import.meta.glob("../assets/*.{jpg,jpeg,png,webp}", { eager: true }),
-)
-  .filter(([path]) => {
-    const fileName = path.split("/").pop() ?? "";
-    return !excludedGalleryFiles.some((pattern) => pattern.test(fileName));
-  })
-  .map(([path, module]) => {
-    const fileName =
-      path
-        .split("/")
-        .pop()
-        ?.replace(/\.[^.]+$/, "") ?? "Image";
-
-    return {
-      src: (module as { default: string }).default,
-      alt: fileName.replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-    };
-  })
-  .sort((a, b) => a.alt.localeCompare(b.alt));
-
-const previewImages: GalleryImage[] = [
-  { src: gebbaImg, alt: "Guests enjoying a Cape Town stop" },
-  { src: capeImg, alt: "Cape of Good Hope coastline" },
-  { src: sealImg, alt: "Cape fur seal" },
-  { src: pengiImg, alt: "Boulders Beach penguins" },
-  { src: boatImg, alt: "Cape Town boat tour" },
-  { src: wineImg, alt: "Cape Winelands estate" },
-  { src: sunsetImg, alt: "Cape Town sunset tour" },
-];
-
-const previewSpans = ["row-span-2 col-span-2", "col-span-2", "row-span-2", "", "", ""];
 
 export default function Gallery({ preview = false }: { preview?: boolean }) {
   const [open, setOpen] = useState<string | null>(null);
@@ -59,16 +18,10 @@ export default function Gallery({ preview = false }: { preview?: boolean }) {
     setHydrated(true);
   }, []);
 
-  const images = useMemo(() => {
-    if (!preview) {
-      return allImages;
-    }
-
-    return previewImages.map((image, index) => ({
-      ...image,
-      span: previewSpans[index] ?? "",
-    }));
-  }, [preview]);
+  const images = useMemo<GalleryImage[]>(
+    () => galleryPhotos.map((image) => ({ src: image.src, alt: image.alt })),
+    [],
+  );
 
   return (
     <section id="gallery" className={preview ? "bg-background" : "bg-background py-24 lg:py-32"}>

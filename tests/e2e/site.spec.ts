@@ -205,16 +205,20 @@ test("gallery supports opening a photograph and closing with Escape", async ({ p
 
 test("gallery filters and keyboard controls explore the selected collection", async ({ page }) => {
   await page.goto("/gallery", { waitUntil: "domcontentloaded" });
-  await page.getByRole("button", { name: /Wildlife/ }).click();
-  await expect(page.getByRole("status")).toHaveText("2 photographs");
-  await page.getByRole("button", { name: "View photograph: A different kind of local" }).click();
+  await page.getByRole("button", { name: /Adventure/ }).click();
+  await expect(page.getByRole("status")).toHaveText("3 photographs");
+  await page
+    .getByRole("button", { name: "View photograph: A ride through the countryside" })
+    .click();
   const dialog = page.getByRole("dialog");
-  await expect(dialog.getByRole("heading", { name: "A different kind of local" })).toBeVisible();
+  await expect(
+    dialog.getByRole("heading", { name: "A ride through the countryside" }),
+  ).toBeVisible();
   await page.keyboard.press("ArrowRight");
-  await expect(dialog.getByRole("heading", { name: "Life on the Atlantic coast" })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "Take the scenic route" })).toBeVisible();
   await dialog.getByRole("button", { name: "Next photograph" }).click();
-  await expect(dialog.getByRole("heading", { name: "A different kind of local" })).toBeVisible();
+  await expect(dialog.getByRole("heading", { name: "A different way to explore" })).toBeVisible();
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: /All frames/ }).click();
-  await expect(page.getByRole("button", { name: /^View photograph:/ })).toHaveCount(14);
+  await expect(page.getByRole("button", { name: /^View photograph:/ })).toHaveCount(8);
 });
